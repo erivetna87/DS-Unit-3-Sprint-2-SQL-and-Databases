@@ -1,0 +1,61 @@
+How many total Characters are there?
+How many of each specific subclass?
+How many total Items?
+How many of the Items are weapons? How many are not?
+How many Items does each character have? (Return first 20 rows)
+How many Weapons does each character have? (Return first 20 rows)
+On average, how many Items does each Character have?
+On average, how many Weapons does each character have?
+
+
+#1
+
+SELECT DISTINCT COUNT(name)
+FROM charactercreator_character;
+
+#2 - this one crashed my DB browser. 
+SELECT COUNT(DISTINCT table.character_ptr_id) * 5
+FROM table.subclass * 5
+
+#3 
+SELECT (COUNT(DISTINCT armory_item.item_id) + COUNT(DISTINCT armory_weapon.item_ptr_id)) as 'Total Items'
+FROM armory_item, armory_weapon;
+
+#4
+SELECT COUNT(DISTINCT armory_item.item_id), COUNT(DISTINCT armory_weapon.item_ptr_id)
+FROM armory_item, armory_weapon;
+
+#5
+SELECT COUNT(charactercreator_character_inventory.item_id)
+FROM charactercreator_character_inventory
+LIMIT 20;
+
+#6
+SELECT charactercreator_character_inventory.character_id, charactercreator_character_inventory.item_id, COUNT(armory_weapon.item_ptr_id)
+FROM charactercreator_character_inventory INNER JOIN armory_weapon
+ON charactercreator_character_inventory.item_id = armory_weapon.item_ptr_id
+GROUP BY character_id
+LIMIT 20;
+
+
+#7
+SELECT
+COUNT(charactercreator_character_inventory.item_id) as 'Count of Items', 
+COUNT(DISTINCT character_id) as 'Count of Characters', 
+CAST(COUNT(charactercreator_character_inventory.item_id) as FLOAT)/COUNT(DISTINCT character_id) AS 'Average Item'
+FROM
+charactercreator_character_inventory
+INNER JOIN
+armory_item
+ON armory_item.item_id = charactercreator_character_inventory.item_id
+
+#8
+SELECT
+COUNT(charactercreator_character_inventory.item_id) as 'Count of Items', 
+COUNT(DISTINCT charactercreator_character_inventory.character_id) as 'Count of Characters', 
+CAST(COUNT(charactercreator_character_inventory.item_id) as FLOAT)/COUNT(DISTINCT character_id) AS 'Average Item'
+FROM
+charactercreator_character_inventory
+INNER JOIN
+armory_weapon
+ON armory_weapon.item_ptr_id = charactercreator_character_inventory.item_id
