@@ -108,7 +108,7 @@ print("\n","""Why is this returning Category 2 should be Category 1 Per SQL Quer
     in DBBrowser?""","\n")
 pp.pprint(cur2.fetchone())
 
-#employee with the most territories
+#employee with the most territories - Stretch
 cur2.execute("""SELECT DISTINCT Territory.TerritoryDescription,
 Employee.FirstName,
 Employee.LastName,
