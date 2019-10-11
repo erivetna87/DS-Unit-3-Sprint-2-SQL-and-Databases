@@ -104,9 +104,11 @@ CategoryId,
 COUNT(DISTINCT Product.id) as 'Total Units by Category'
 FROM Product;""")
 
-print("""Why is this returning Category 2?""")
+print("\n","""Why is this returning Category 2 should be Category 1 Per SQL Queries\
+    in DBBrowser?""","\n")
 pp.pprint(cur2.fetchone())
 
+#employee with the most territories
 cur2.execute("""SELECT DISTINCT Territory.TerritoryDescription,
 Employee.FirstName,
 Employee.LastName,
@@ -117,6 +119,7 @@ JOIN Employee
 ON EmployeeTerritory.EmployeeId = Employee.Id
 GROUP BY Employee.LastName
 ORDER BY COUNT(Employee.LastName) DESC;""")
+print("\n","""Employee with most Territories""","\n")
 pp.pprint(cur2.fetchall())
 
 #Part 4
