@@ -107,6 +107,18 @@ FROM Product;""")
 print("""Why is this returning Category 2?""")
 pp.pprint(cur2.fetchone())
 
+cur2.execute("""SELECT DISTINCT Territory.TerritoryDescription,
+Employee.FirstName,
+Employee.LastName,
+COUNT(Employee.LastName)
+FROM Territory JOIN EmployeeTerritory
+ON Territory.Id = EmployeeTerritory.TerritoryId
+JOIN Employee
+ON EmployeeTerritory.EmployeeId = Employee.Id
+GROUP BY Employee.LastName
+ORDER BY COUNT(Employee.LastName) DESC;""")
+pp.pprint(cur2.fetchall())
+
 #Part 4
 """EmployeeID """
 
